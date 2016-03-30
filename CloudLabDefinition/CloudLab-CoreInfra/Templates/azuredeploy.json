@@ -2,6 +2,33 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "Brazil South",
+        "Central US",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "Japan East",
+        "Japan West",
+        "North Central US",
+        "North Europe",
+        "South Central US",
+        "Southeast Asia",
+        "West Europe",
+        "West US"
+      ],
+      "metadata": {
+        "Description": "The region to deploy the resources into"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "Description": "The name of the storage account to Create/Use"
+      }
+    },
     "storageAccountType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
@@ -15,6 +42,32 @@
         "description": "Storage Account type"
       }
     },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "Description": "The name of the Virtual Network to Create/Use"
+      }
+    },
+    "virtualNetworkAddressRange": {
+      "type": "string",
+      "metadata": {
+        "Description": "The address range of the new VNET in CIDR format"
+      },
+      "defaultValue": "10.0.0.0/16"
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "Description": "The name of the subnet created in the new VNET"
+      }
+    },
+    "subnetRange": {
+      "type": "string",
+      "metadata": {
+        "Description": "The address range of the subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.0.0/24"
+    },
     "assetLocation": {
       "type": "string",
       "metadata": {
@@ -25,48 +78,34 @@
 
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]",
-    "virtualNetworkName": "[concat(uniquestring(resourceGroup().id), 'virtualNetwork')]",
-    "apiVersion": "2015-06-15",
-    "virtualNetworkPrefix": "10.0.0.0/16",
-    "virtualNetworkSubnet1Name": "Subnet-1",
-    "virtualNetworkSubnet1Prefix": "10.0.0.0/24",
-    "virtualNetworkSubnet2Name": "Subnet-2",
-    "virtualNetworkSubnet2Prefix": "10.0.1.0/24"
+  
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "apiVersion": "[variables('apiVersion')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
+      "name": "[parameters('storageAccountName')]",
+      "apiVersion": "2015-06-15",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
       }
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
+      "name": "[parameters('virtualNetworkName')]",
       "apiVersion": "2015-06-15",
-      "dependsOn": [ ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[variables('virtualNetworkPrefix')]"
+            "[parameters('virtualNetworkAddressRange')]"
           ]
         },
         "subnets": [
           {
-            "name": "[variables('virtualNetworkSubnet1Name')]",
+            "name": "[parameters('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('virtualNetworkSubnet1Prefix')]"
-            }
-          },
-          {
-            "name": "[variables('virtualNetworkSubnet2Name')]",
-            "properties": {
-              "addressPrefix": "[variables('virtualNetworkSubnet2Prefix')]"
+              "addressPrefix": "[parameters('subnetRange')]"
             }
           }
         ]
