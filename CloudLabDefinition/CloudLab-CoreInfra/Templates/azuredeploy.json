@@ -2,27 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "Brazil South",
-        "Central US",
-        "East Asia",
-        "East US",
-        "East US 2",
-        "Japan East",
-        "Japan West",
-        "North Central US",
-        "North Europe",
-        "South Central US",
-        "Southeast Asia",
-        "West Europe",
-        "West US"
-      ],
-      "metadata": {
-        "Description": "The region to deploy the resources into"
-      }
-    },
     "storageAccountName": {
       "type": "string",
       "metadata": {
@@ -83,7 +62,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "name": "[parameters('storageAccountName')]",
       "apiVersion": "2015-06-15",
       "properties": {
@@ -92,7 +71,7 @@
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "name": "[parameters('virtualNetworkName')]",
       "apiVersion": "2015-06-15",
       "properties": {
