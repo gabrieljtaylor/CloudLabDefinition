@@ -6,7 +6,7 @@
       "value": "gjtcloudlabsa1"
     },
     "storageAccountType": {
-      "value": "Standard_GRS"
+      "value": "Standard_LRS"
     },
     "virtualNetworkName": {
       "value": "GJT-CloudLab-vNet1"
@@ -15,10 +15,10 @@
       "value": "10.0.0.0/16"
     },
     "subnetName": {
-      "value": ""
+      "value": "10.0.0.0-24"
     },
     "subnetRange": {
-      "value": "10.0.0.0-24"
+      "value": "10.0.0.0/24"
     },
     "assetLocation": {
       "value": ""
