@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adAvailabilitySetName": {
-      "value": "Standard_A1"
+      "value": "CloudLab-DC-AvailabilitySet"
     },
     "adBDCNicIPAddress": {
       "value": "10.0.0.5"
@@ -38,13 +38,13 @@
       "value": "cloud.gabrieljtaylor.com"
     },
     "imageOffer": {
-      "value": "Standard_A1"
+      "value": "WindowsServer"
     },
     "imagePublisher": {
-      "value": "Standard_A1"
+      "value": "MicrosoftWindowsServer"
     },
     "imageSKU": {
-      "value": "Standard_A1"
+      "value": "2012-R2-Datacenter"
     },
     "newStorageAccountName": {
       "value": "gjtcloudlabsaad"
