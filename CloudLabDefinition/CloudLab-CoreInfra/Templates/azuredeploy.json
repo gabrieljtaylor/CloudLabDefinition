@@ -606,7 +606,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat(parameters('adBDCVMName'),'-CreateADForest')]"
+        "[concat(parameters('adBDCVMName'),'-CreateBDC')]"
       ],
       "properties": {
         "mode": "Incremental",
