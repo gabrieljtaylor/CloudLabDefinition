@@ -35,7 +35,7 @@
       "value": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
     },
     "bdcRDPPort": {
-      "value": "23389"
+      "value": "13389"
     },
     "domainName": {
       "value": "cloud.gabrieljtaylor.com"
@@ -53,7 +53,7 @@
       "value": "gjtcloudlabsaad"
     },
     "pdcRDPPort": {
-      "value": "13389"
+      "value": "3389"
     },
     "storageAccountType": {
       "value": "Standard_LRS"

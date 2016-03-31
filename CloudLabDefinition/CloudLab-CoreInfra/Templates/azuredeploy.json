@@ -88,7 +88,7 @@
       "metadata": {
         "description": "The public RDP port for the BDC VM"
       },
-      "defaultValue": 23389
+      "defaultValue": 13389
     },
     "domainName": {
       "type": "string",
@@ -128,7 +128,7 @@
       "metadata": {
         "description": "The public RDP port for the PDC VM"
       },
-      "defaultValue": 13389
+      "defaultValue": 3389
     },
     "storageAccountType": {
       "type": "string",
