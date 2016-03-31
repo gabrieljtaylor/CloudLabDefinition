@@ -1,0 +1,27 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": "gjtcloudlabsa1"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "virtualNetworkName": {
+      "value": "GJT-CloudLab-vNet1"
+    },
+    "virtualNetworkAddressRange": {
+      "value": "10.0.0.0/16"
+    },
+    "subnetName": {
+      "value": "10.0.0.0-24"
+    },
+    "subnetRange": {
+      "value": "10.0.0.0/24"
+    },
+    "assetLocation": {
+      "value": ""
+    }
+  }
+}

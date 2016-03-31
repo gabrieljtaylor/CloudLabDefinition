@@ -1,27 +1,30 @@
-﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccountName": {
-      "value": "gjtcloudlabsa1"
+    "newStorageAccountName": {
+      "value": "gjtcloudlabsaad"
     },
-    "storageAccountType": {
-      "value": "Standard_LRS"
+    "location": {
+      "value": "East US 2"
     },
-    "virtualNetworkName": {
-      "value": "GJT-CloudLab-vNet1"
+    "adminUsername": {
+      "value": "gjtAdmin"
     },
-    "virtualNetworkAddressRange": {
-      "value": "10.0.0.0/16"
+    "adminPassword": {
+      "value": "GEN-PASSWORD"
     },
-    "subnetName": {
-      "value": "10.0.0.0-24"
+    "adVMSize": {
+      "value": "Standard_A1"
     },
-    "subnetRange": {
-      "value": "10.0.0.0/24"
+    "dnsPrefix": {
+      "value": "GEN-UNIQUE"
+    },
+    "domainName": {
+      "value": "cloud.gabrieljtaylor.com"
     },
     "assetLocation": {
-      "value": ""
+      "value": "https://github.com/Azure/azure-quickstart-templates/raw/master/active-directory-new-domain-ha-2-dc/"
     }
   }
 }
