@@ -34,9 +34,6 @@
     "assetLocation": {
       "value": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
     },
-    "bdcRDPPort": {
-      "value": "13389"
-    },
     "domainName": {
       "value": "cloud.gabrieljtaylor.com"
     },
@@ -51,9 +48,6 @@
     },
     "newStorageAccountName": {
       "value": "gjtcloudlabsaad"
-    },
-    "pdcRDPPort": {
-      "value": "3389"
     },
     "storageAccountType": {
       "value": "Standard_LRS"

@@ -2,53 +2,60 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "newStorageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the new storage account created to store the VMs disks"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_ZRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "description": "The type of the Storage Account created"
+      },
+      "defaultValue": "Standard_LRS"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Virtual Network to Create"
+      },
+      "defaultValue": "VNET1"
+    },
+    "virtualNetworkAddressRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the new VNET in CIDR format"
+      },
+      "defaultValue": "10.0.0.0/16"
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the subnet created in the new VNET"
+      },
+      "defaultValue": "Subnet1"
+    },
+    "subnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.0.0/24"
+    },
     "adAvailabilitySetName": {
       "type": "string",
       "metadata": {
         "description": "The name of the availability set that the AD VM is created in"
       },
       "defaultValue": "adAvailabiltySet"
-    },
-    "adBDCNicIPAddress": {
-      "type": "string",
-      "metadata": {
-        "description": "The IP address of the new AD BDC"
-      },
-      "defaultValue": "10.0.0.5"
-    },
-    "adBDCVMName": {
-      "type": "string",
-      "metadata": {
-        "description": "The computer name of the BDC"
-      },
-      "defaultValue": "adBDC"
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The password for the Administrator account of the new VM and Domain"
-      }
-    },
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Administrator of the new VM and Domain"
-      },
-      "defaultValue": "adAdministrator"
-    },
-    "adPDCNicIPAddress": {
-      "type": "string",
-      "metadata": {
-        "description": "The IP address of the new AD PDC"
-      },
-      "defaultValue": "10.0.0.4"
-    },
-    "adPDCVMName": {
-      "type": "string",
-      "metadata": {
-        "description": "The computer name of the PDC"
-      },
-      "defaultValue": "adPDC"
     },
     "adVMSize": {
       "type": "string",
@@ -76,26 +83,6 @@
       },
       "defaultValue": "Standard_D2"
     },
-    "assetLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "The location of resources such as templates and DSC modules that the script is dependent"
-      },
-      "defaultValue": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
-    },
-    "bdcRDPPort": {
-      "type": "int",
-      "metadata": {
-        "description": "The public RDP port for the BDC VM"
-      },
-      "defaultValue": 13389
-    },
-    "domainName": {
-      "type": "string",
-      "metadata": {
-        "description": "The FQDN of the AD Domain created "
-      }
-    },
     "imageOffer": {
       "type": "string",
       "defaultValue": "WindowsServer",
@@ -117,60 +104,52 @@
         "description": "Image SKU"
       }
     },
-    "newStorageAccountName": {
+    "adPDCVMName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the new storage account created to store the VMs disks"
+        "description": "The computer name of the PDC"
+      },
+      "defaultValue": "adPDC"
+    },
+    "adPDCNicIPAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD PDC"
+      },
+      "defaultValue": "10.0.0.4"
+    },
+    "adBDCVMName": {
+      "type": "string",
+      "metadata": {
+        "description": "The computer name of the BDC"
+      },
+      "defaultValue": "adBDC"
+    },
+    "adBDCNicIPAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD BDC"
+      },
+      "defaultValue": "10.0.0.5"
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The FQDN of the AD Domain created "
       }
     },
-    "pdcRDPPort": {
-      "type": "int",
-      "metadata": {
-        "description": "The public RDP port for the PDC VM"
-      },
-      "defaultValue": 3389
-    },
-    "storageAccountType": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS",
-        "Standard_ZRS",
-        "Premium_LRS"
-      ],
-      "metadata": {
-        "description": "The type of the Storage Account created"
-      },
-      "defaultValue": "Standard_LRS"
-    },
-    "subnetName": {
+    "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the subnet created in the new VNET"
+        "description": "The name of the Administrator of the new VM and Domain"
       },
-      "defaultValue": "Subnet1"
+      "defaultValue": "adAdministrator"
     },
-    "subnetRange": {
-      "type": "string",
+    "adminPassword": {
+      "type": "securestring",
       "metadata": {
-        "description": "The address range of the subnet created in the new VNET"
-      },
-      "defaultValue": "10.0.0.0/24"
-    },
-    "virtualNetworkAddressRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the new VNET in CIDR format"
-      },
-      "defaultValue": "10.0.0.0/16"
-    },
-    "virtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Virtual Network to Create"
-      },
-      "defaultValue": "VNET1"
+        "description": "The password for the Administrator account of the new VM and Domain"
+      }
     },
     "monitoringAgentWorkspaceID": {
       "type": "string",
@@ -183,6 +162,13 @@
       "metadata": {
         "description": "Monitoring Agent Workspace Key extension name"
       }
+    },
+    "assetLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources such as templates and DSC modules that the script is dependent"
+      },
+      "defaultValue": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
     }
   },
   "variables": {
