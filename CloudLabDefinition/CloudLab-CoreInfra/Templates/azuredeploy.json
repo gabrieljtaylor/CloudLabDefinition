@@ -640,4 +640,26 @@
       }
     }
   ]
+  "outputs": {
+    "VNetTemplateUri": {
+      "type": "string",
+      "value": "[variables('vnetTemplateUri')]"
+    },
+    "VNetWithDNSTemplateUri": {
+      "type": "string",
+      "value": "[variables('vnetwithDNSTemplateUri')]"
+    },
+    "NicTemplateUri": {
+      "type": "string",
+      "value": "[variables('nicTemplateUri')]"
+    },
+    "adPDCModulesURL": {
+      "type": "string",
+      "value": "[variables('adPDCModulesURL')]"
+    },
+    "adbDCModulesURL": {
+      "type": "string",
+      "value": "[variables('adbDCModulesURL')]"
+    }
+  }
 }
