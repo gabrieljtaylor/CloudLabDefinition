@@ -412,7 +412,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat('extensions/', parameters('adPDCVMName'),'-CreateADForest')]"
+        "[concat(parameters('adPDCVMName'),'-CreateADForest')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -606,7 +606,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat('extensions/', parameters('adBDCVMName'),'-CreateADForest')]"
+        "[concat(parameters('adBDCVMName'),'-CreateADForest')]"
       ],
       "properties": {
         "mode": "Incremental",
