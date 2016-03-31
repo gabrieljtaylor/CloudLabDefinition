@@ -32,7 +32,7 @@
       "value": "Standard_A1"
     },
     "assetLocation": {
-      "value": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
+      "value": "https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/CloudLab-CoreInfra/"
     },
     "domainName": {
       "value": "cloud.gabrieljtaylor.com"

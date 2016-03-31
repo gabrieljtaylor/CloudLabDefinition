@@ -168,7 +168,7 @@
       "metadata": {
         "description": "The location of resources such as templates and DSC modules that the script is dependent"
       },
-      "defaultValue": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
+      "defaultValue": "https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/CloudLab-CoreInfra/"
     }
   },
   "variables": {
