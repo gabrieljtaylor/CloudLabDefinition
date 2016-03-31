@@ -355,7 +355,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "[concat(parameters('adPDCVMName'),'/CreateADForest')]",
+          "name": "[concat(parameters('adPDCVMName'),'-CreateADForest')]",
           "apiVersion": "2015-06-15",
           "location": "[resourceGroup().location]",
           "dependsOn": [
@@ -387,7 +387,7 @@
         {
           "apiVersion": "2015-06-15",
           "type": "extensions",
-          "name": "[concat(parameters('adPDCVMName'),'/MMAconfiguration')]",
+          "name": "[concat(parameters('adPDCVMName'),'-MMAconfiguration')]",
           "location": "[resourceGroup().location]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]"
@@ -547,7 +547,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "[concat(parameters('adBDCVMName'),'/CreateBDC')]",
+          "name": "[concat(parameters('adBDCVMName'),'-CreateBDC')]",
           "apiVersion": "2015-06-15",
           "location": "[resourceGroup().location]",
           "dependsOn": [
@@ -580,7 +580,7 @@
         {
           "apiVersion": "2015-06-15",
           "type": "extensions",
-          "name": "[concat(parameters('adBDCVMName'),'/MMAconfiguration')]",
+          "name": "[concat(parameters('adBDCVMName'),'-MMAconfiguration')]",
           "location": "[resourceGroup().location]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('adBDCVMName'))]"
