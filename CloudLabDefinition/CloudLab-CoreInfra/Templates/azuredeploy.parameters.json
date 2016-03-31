@@ -2,29 +2,89 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "newStorageAccountName": {
-      "value": "gjtcloudlabsaad"
+    "adAvailabilitySetName": {
+      "value": "Standard_A1"
     },
-    "location": {
-      "value": "East US 2"
+    "adBDCNicIPAddress": {
+      "value": "10.0.0.5"
     },
-    "adminUsername": {
-      "value": "gjtAdmin"
+    "adBDCVMName": {
+      "value": "CloudLab-DC02"
     },
     "adminPassword": {
-      "value": "GEN-PASSWORD"
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-AdminPW"
+      }
+    },
+    "adminUsername": {
+      "value": "cloudDomainAdmin"
+    },
+    "adPDCNicIPAddress": {
+      "value": "10.0.0.4"
+    },
+    "adPDCVMName": {
+      "value": "CloudLab-DC01"
     },
     "adVMSize": {
       "value": "Standard_A1"
     },
-    "dnsPrefix": {
-      "value": "GEN-UNIQUE"
+    "assetLocation": {
+      "value": "https://github.com/gabrieljtaylor/CloudLabDefinition/tree/master/CloudLabDefinition/CloudLab-CoreInfra/"
+    },
+    "bdcRDPPort": {
+      "value": "23389"
     },
     "domainName": {
       "value": "cloud.gabrieljtaylor.com"
     },
-    "assetLocation": {
-      "value": "https://github.com/Azure/azure-quickstart-templates/raw/master/active-directory-new-domain-ha-2-dc/"
+    "imageOffer": {
+      "value": "Standard_A1"
+    },
+    "imagePublisher": {
+      "value": "Standard_A1"
+    },
+    "imageSKU": {
+      "value": "Standard_A1"
+    },
+    "newStorageAccountName": {
+      "value": "gjtcloudlabsaad"
+    },
+    "pdcRDPPort": {
+      "value": "13389"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "subnetName": {
+      "value": "10.0.0.0-24"
+    },
+    "subnetRange": {
+      "value": "10.0.0.0/24"
+    },
+    "virtualNetworkAddressRange": {
+      "value": "10.0.0.0/16"
+    },
+    "virtualNetworkName": {
+      "value": "GJT-CloudLab-vNet1"
+    },
+    "monitoringAgentWorkspaceID": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-OMSWorkspaceId"
+      }
+    },
+    "monitoringAgentWorkspaceKey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-OMSWorkspaceKey"
+      }
     }
   }
 }
