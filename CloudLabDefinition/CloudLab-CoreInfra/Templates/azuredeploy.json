@@ -639,7 +639,7 @@
         }
       }
     }
-  ]
+  ],
   "outputs": {
     "VNetTemplateUri": {
       "type": "string",
