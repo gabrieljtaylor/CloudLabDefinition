@@ -35,8 +35,7 @@ param (
 #region Variables
 ## Resource Group Names
 [string]$RGName_Prefix = 'GJT-'
-[string]$RGName_CoreInfra = 'CloudLab-CoreInfra'
-[string]$RGName_ADDS = 'CloudLab-ADDS'
+[string]$RGName_SiteInfra_EUS2 = 'CloudLab-SiteInfra-EUS2'
 
 ## Asset location root
 [string]$AssetPathRoot = 'https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/'
@@ -45,7 +44,7 @@ param (
 #endregion
 
 #region Functions
-function Deploy-RGCoreInfra {
+function Deploy-RGSiteInfra-EUS2 {
     [CmdletBinding()]
     param(
         [string]$DeploymentMode = 'Incremental',    
@@ -77,7 +76,8 @@ function Deploy-RGCoreInfra {
                 -ResourceGroupName $FullResourceGroupName `
                 -Mode $DeploymentMode `
                 -TemplateUri $TemplateUri `
-                -TemplateParameterUri $ParameterUri
+                -TemplateParameterUri $ParameterUri `
+                -Verbose
         }
         catch {
             Write-Error -Message "An error occured while deploying resource group $FullResourceGroupName; exception: $($Error[0].Exception.Message)"
@@ -112,9 +112,9 @@ catch {
 #endregion
 
 #region Deploy Resource Groups
-## Deploy the CoreInfra resource group
-Deploy-RGCoreInfra -DeploymentMode Incremental `
-    -ResourceGroupName $RGName_CoreInfra `
+## Deploy the SiteInfra-EUS2 resource group
+Deploy-RGSiteInfra_EUS2 -DeploymentMode Incremental `
+    -ResourceGroupName $RGName_SiteInfra_EUS2 `
     -ResourceGroupNamePrefix $RGName_Prefix `
     -ResourceGroupLocation $Location `
     -AssetPathRoot $AssetPathRoot `

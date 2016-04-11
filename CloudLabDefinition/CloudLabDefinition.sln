@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CloudLab-CoreInfra", "CloudLab-CoreInfra\CloudLab-CoreInfra.deployproj", "{F6B8569C-13E2-49C2-9D8C-8605145BFDD2}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CloudLab-SiteInfra-EUS2", "CloudLab-SiteInfra-EUS2\CloudLab-SiteInfra-EUS2.deployproj", "{F6B8569C-13E2-49C2-9D8C-8605145BFDD2}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "MasterDeploymentScript", "MasterDeploymentScript\MasterDeploymentScript.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
