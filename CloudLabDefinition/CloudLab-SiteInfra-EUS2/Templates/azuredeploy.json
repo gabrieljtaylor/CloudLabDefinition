@@ -183,35 +183,36 @@
       }
     }
   },
-	"variables": {
-		"adLBFE": "LBFE",
-		"adLBBE": "LBBE",
-		"adPDCRDPNAT": "adPDCRDP",
-		"adBDCRDPNAT": "adBDCRDP",
-		"VnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-		"subnetNameRef": "[concat(variables('VnetID'),'/subnets/',parameters('subnetName'))]",
-		"adPDCNicName": "[concat(parameters('adPDCVMName'),'_nic1')]",
-		"adPDCNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adPDCNicName'))]",
-		"adPDCIPConfigID": "[concat(variables('adPDCNicId'),'/ipConfigurations/ipconfig1')]",
-		"adBDCNicName": "[concat(parameters('adBDCVMName'),'_nic1')]",
-		"adBDCNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adBDCNicName'))]",
-		"adBDCIPConfigID": "[concat(variables('adBDCNicId'),'/ipConfigurations/ipconfig1')]",
-		"adPDCOSDisk": "[concat(parameters('adPDCVMName'),'_OS')]",
-		"adPDCDataDisk": "[concat(parameters('adPDCVMName'),'_Data')]",
-		"adBDCOSDisk": "[concat(parameters('adBDCVMName'),'_OS')]",
-		"adBDCDataDisk": "[concat(parameters('adBDCVMName'),'_Data')]",
-		"adDataDiskSize": 1000,
-		"vnetTemplateUri": "[concat(parameters('assetLocation'),'Templates/vnet.json')]",
-		"nicTemplateUri": "[concat(parameters('assetLocation'),'Templates/nic.json')]",
-		"vnetwithDNSTemplateUri": "[concat(parameters('assetLocation'),'Templates/vnet-with-dns-server.json')]",
-		"adPDCModulesURL": "[concat(parameters('assetLocation'),'Assets/CreateADPDC.ps1.zip')]",
-		"adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-		"adBDCModulesURL": "[concat(parameters('assetLocation'),'Assets/CreateADBDC.ps1.zip')]",
-		"adBDCConfigurationFunction": "CreateADBDC.ps1\\CreateADBDC",
-		"asPlatformFaultDomainCount": "3",
-		"asPlatformUpdateDomainCount": "20",
-		"ConfigureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/ConfigureADObjects.ps1')]"
-	},
+  "variables": {
+    "adLBFE": "LBFE",
+    "adLBBE": "LBBE",
+    "adPDCRDPNAT": "adPDCRDP",
+    "adBDCRDPNAT": "adBDCRDP",
+    "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetNameRef": "[concat(variables('VnetID'),'/subnets/',parameters('subnetName'))]",
+    "adPDCNicName": "[concat(parameters('adPDCVMName'),'_nic1')]",
+    "adPDCNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adPDCNicName'))]",
+    "adPDCIPConfigID": "[concat(variables('adPDCNicId'),'/ipConfigurations/ipconfig1')]",
+    "adBDCNicName": "[concat(parameters('adBDCVMName'),'_nic1')]",
+    "adBDCNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adBDCNicName'))]",
+    "adBDCIPConfigID": "[concat(variables('adBDCNicId'),'/ipConfigurations/ipconfig1')]",
+    "adPDCOSDisk": "[concat(parameters('adPDCVMName'),'_OS')]",
+    "adPDCDataDisk": "[concat(parameters('adPDCVMName'),'_Data')]",
+    "adBDCOSDisk": "[concat(parameters('adBDCVMName'),'_OS')]",
+    "adBDCDataDisk": "[concat(parameters('adBDCVMName'),'_Data')]",
+    "adDataDiskSize": 1000,
+    "vnetTemplateUri": "[concat(parameters('assetLocation'),'Templates/vnet.json')]",
+    "nicTemplateUri": "[concat(parameters('assetLocation'),'Templates/nic.json')]",
+    "vnetwithDNSTemplateUri": "[concat(parameters('assetLocation'),'Templates/vnet-with-dns-server.json')]",
+    "adPDCModulesURL": "[concat(parameters('assetLocation'),'Assets/CreateADPDC.ps1.zip')]",
+    "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+    "adBDCModulesURL": "[concat(parameters('assetLocation'),'Assets/CreateADBDC.ps1.zip')]",
+    "adBDCConfigurationFunction": "CreateADBDC.ps1\\CreateADBDC",
+    "asPlatformFaultDomainCount": "3",
+    "asPlatformUpdateDomainCount": "20",
+    "ConfigureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/ConfigureADObjects.ps1')]",
+    "ConfigureADObjectsAssetCSVPath": "[concat(parameters('assetLocation'),'Assets/')]"
+  },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -435,12 +436,12 @@
 						"type": "CustomScriptExtension",
 						"typeHandlerVersion": "1.4",
 						"autoUpgradeMinorVersion": true,
-						"settings": {
-							"fileUris": [
-								"[concat(parameters('_artifactsLocation'), '/', variables('ConfigureADObjectsScriptFilePath'), parameters('_artifactsLocationSasToken'))]"
-							],
-							"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('ConfigureADObjectsScriptFilePath'))]"
-						}
+            "settings": {
+              "fileUris": [
+                "[variables('ConfigureADObjectsScriptFilePath')]"
+              ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('ConfigureADObjectsScriptFilePath'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('adminPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
+            }
 					}
 				}
       ]

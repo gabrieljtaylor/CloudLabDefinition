@@ -9,7 +9,7 @@
 #region Parameters
 [CmdletBinding()]
 param(
-    $CSVLocation,
+    $CSVDataUrl,
     $DefaultPassword,
     $DomainAdminUsername,
     $DomainAdminPassword
@@ -17,7 +17,7 @@ param(
 #endregion
 
 #region Variables
-
+$StartTime = Get-Date
 #endregion
 
 #region Functions
@@ -80,10 +80,10 @@ function Test-Credential {
 
 [scriptblock]$configureOUs = {
     ## Save the input arguments as variables
-    $CSVpath = $args[0]
+    $CSVURL = $args[0]
 
     ## Define functions
-    Function Test-ADOUExists {
+    function Test-ADOUExists {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -111,8 +111,11 @@ function Test-Credential {
     ## Get the current domain information
     $Domain = Get-ADDomain
 
-    ## Import the CSV information and sort to order
-    [array]$CSVData = Import-Csv -Path $CSVpath | Sort-Object -Property CanonicalName
+    ## Retrieve the CSV data from the web and sort it
+    [array]$CSVData = Invoke-WebRequest -Uri $CSVURL |
+        Select-Object -ExpandProperty Content |
+        ConvertFrom-Csv |
+        Sort-Object -Property CanonicalName
 
     ## Validate and create OUs based on the CSV data
     $ProcessedOUs = @()
@@ -147,7 +150,15 @@ function Test-Credential {
                     }
 
                     ## Create the OU
-                    $OU = New-ADOrganizationalUnit @SplatHash
+                    $ADOU = New-ADOrganizationalUnit @SplatHash
+                }
+
+                ## If the OU is specified as a Computer or User default location, configure that
+                if ($OU.DefaultComputerOU -eq $true) {
+                    redircmp.exe $Path
+                }
+                if ($OU.DefaultUserOU -eq $true) {
+                    redirusr.exe $Path
                 }
 
                 ## Add the OU to the list of processed OUs
@@ -166,10 +177,10 @@ function Test-Credential {
 
 [scriptblock]$configureGroups = {
     ## Save the input arguments as variables
-    $CSVpath = $args[0]
+    $CSVURL = $args[0]
 
     ## Define functions
-    Function Test-ADsAMAccountNameExists {
+    gunction Test-ADsAMAccountNameExists {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -194,8 +205,10 @@ function Test-Credential {
     ## Get the current domain information
     $Domain = Get-ADDomain
 
-    ## Import the CSV information
-    [array]$CSVData = Import-Csv -Path $CSVpath
+    ## Retrieve the CSV data from the web
+    [array]$CSVData = Invoke-WebRequest -Uri $CSVURL |
+        Select-Object -ExpandProperty Content |
+        ConvertFrom-Csv
 
     ## Validate and create Groups based on the CSV data
     $ProcessedGroups = @()
@@ -265,12 +278,12 @@ function Test-Credential {
 
 [scriptblock]$configureUsers = {
     ## Save the input arguments as variables
-    $CSVpath = $args[0]
+    $CSVURL = $args[0]
     $DNSSuffix = $args[1]
     $DefaultPassword = (ConvertTo-SecureString -String $args[2] -AsPlainText -Force)
 
     ## Define functions
-    Function Test-ADsAMAccountNameExists {
+    function Test-ADsAMAccountNameExists {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -286,7 +299,7 @@ function Test-Credential {
         $exists
     }
 
-    Function Test-ADUserDisplayNameExists {
+    function Test-ADUserDisplayNameExists {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -302,7 +315,7 @@ function Test-Credential {
         $exists
     }
 
-    Function Generate-NewADUserName {
+    function Generate-NewADUserName {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true)][string]$GivenName,
@@ -373,8 +386,11 @@ function Test-Credential {
     ## Get the current domain information
     $Domain = Get-ADDomain
 
-    ## Import the CSV information
-    [array]$CSVData = Import-Csv -Path $CSVpath
+    ## Retrieve the CSV data from the web
+    [array]$CSVData = Invoke-WebRequest -Uri $CSVURL |
+        Select-Object -ExpandProperty Content |
+        ConvertFrom-Csv |
+        Sort-Object -Property CanonicalName
 
     ## Validate and create Users based on the CSV data
     $ProcessedUsers = @()
@@ -480,23 +496,89 @@ function Test-Credential {
 #endregion
 
 #region Data Validation
+## Identify the domain name
+$DomainName = $env:USERDOMAIN
 
+## Build a credential object for the supplied domain admin credentials
+$DomainCreds = New-Object System.Management.Automation.PSCredential (
+    "$DomainName\$DomainAdminUsername",
+    (ConvertTo-SecureString @"
+$DomainAdminPassword
+"@ -AsPlainText -Force))
+
+## Test the supplied domain admin credentials
+if ((Test-Credential -Credential $DomainCreds) -eq $false) {
+    ## Log the account validation failure
+    Write-Verbose -Verbose -Message "The supplied credentials for $($DomainName) failed to be validated; the process will be unable to inventory the servers in that domain."
+    Write-Verbose -Verbose -Message "The credential validation failed for the account $($DomainCreds); please confirm account status and password accuracy, then update the Orchestrator variables."
+    Write-Verbose -Verbose -Message "The script will now exit."
+    exit
+    }
+else {
+    Write-Verbose -Verbose -Message "The supplied credentials for $DomainName were validated successfully."
+}
+
+## Form the URLs for the CSVs
+$CSVDataUrl = $CSVDataUrl.TrimEnd('/')
+$OUDataUrl = $CSVDataUrl + "/ADDefaultObjects-OUs.csv"
+$GroupDataUrl = $CSVDataUrl + "/ADDefaultObjects-Groups.csv"
+$UserDataUrl = $CSVDataUrl + "/ADDefaultObjects-Users.csv"
 #endregion
 
-#region Update AD DNS Suffixes
-
+#region Process AD DNS Suffixes
+try {
+    Write-Verbose -Verbose -Message "Configuring allowed DNS suffixes ..."
+    $DNSSuffix = Invoke-Command -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock $configureDNSSuffix
+    Write-Verbose -Verbose -Message "Allowed DNS suffixes configured successfully."
+}
+catch {
+    Write-Verbose -Verbose -Message "An error occurred while configuring allowed DNS suffixes."
+    Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
+    Write-Verbose -Verbose -Message "The script will now exit."
+    exit
+}
 #endregion
 
 #region Process OUs
-
+try {
+    Write-Verbose -Verbose -Message "Configuring Organizational Units ..."
+    Invoke-Command -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock $configureOUs -ArgumentList $OUDataUrl
+    Write-Verbose -Verbose -Message "Organizational Units configured successfully."
+}
+catch {
+    Write-Verbose -Verbose -Message "An error occurred while configuring Organizational Units."
+    Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
+    Write-Verbose -Verbose -Message "The script will now exit."
+    exit
+}
 #endregion
 
 #region Process Groups
-
+try {
+    Write-Verbose -Verbose -Message "Configuring AD groups ..."
+    Invoke-Command -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock $configureGroups -ArgumentList $GroupDataUrl
+    Write-Verbose -Verbose -Message "AD groups configured successfully."
+}
+catch {
+    Write-Verbose -Verbose -Message "An error occurred while configuring AD groups."
+    Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
+    Write-Verbose -Verbose -Message "The script will now exit."
+    exit
+}
 #endregion
 
 #region Process Users
-
+try {
+    Write-Verbose -Verbose -Message "Configuring AD users ..."
+    Invoke-Command -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock $configureUsers -ArgumentList $UserDataUrl,$DNSSuffix,$DefaultPassword
+    Write-Verbose -Verbose -Message "AD users configured successfully."
+}
+catch {
+    Write-Verbose -Verbose -Message "An error occurred while configuring AD users."
+    Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
+    Write-Verbose -Verbose -Message "The script will now exit."
+    exit
+}
 #endregion
 
 #region Process GPOs
@@ -504,5 +586,6 @@ function Test-Credential {
 #endregion
 
 #region Wrap Up
-
+Write-Verbose -Verbose -Message "AD Object configuration complete."
+Write-Verbose -Verbose -Message "Processing Time: $(New-TimeSpan -Start $StartTime -End (Get-Date))"
 #endregion
