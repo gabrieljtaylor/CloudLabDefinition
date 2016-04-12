@@ -1,0 +1,68 @@
+Name,GroupScope,GroupCategory,Description,LocationPath,MemberOf
+ADM_Exchange,Universal,Security,Exchange Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCAC,Universal,Security,SC App Controller Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCCM,Universal,Security,SC Configuration Manager Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCDPM,Universal,Security,SC Data Protection Manager Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCO,Universal,Security,SC Orchestrator Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCOM,Universal,Security,SC Operations Manager Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCSM,Universal,Security,SC Service Manager Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SCVMM,Universal,Security,SC Virtual Machine Manager Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SharePoint,Universal,Security,SharePoint Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+ADM_SQL,Universal,Security,SQL Administrators group,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+Babylon 5 Staff,Universal,Distribution,Contains all Babylon 5 staff members.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Art,Universal,Distribution,Contains members of the Art club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Book,Universal,Distribution,Contains members of the Book club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Cat,Universal,Distribution,Contains members of the Cat club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Culture,Universal,Distribution,Contains members of the Culture club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Food,Universal,Distribution,Contains members of the Food club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Game,Universal,Distribution,Contains members of the Game club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Happy_Hour,Universal,Distribution,Contains members of the Happy Hour club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Lost,Universal,Distribution,Contains members of the Lost club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Marketing,Universal,Distribution,Contains members of the Marketing club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Media,Universal,Distribution,Contains members of the Media club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Party,Universal,Distribution,Contains members of the Party club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+CLUB_Portal,Universal,Distribution,Contains members of the Portal club.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+DPT_Administration,Universal,Security,Contains members of the Administration department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",SSP - Account Management;DPT_All
+DPT_All,Universal,Security,Contains all other department groups.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",SSP - Standard Users
+DPT_AppDev,Universal,Security,Contains members of the AppDev team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+DPT_DBOps,Universal,Security,Contains members of the DBOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+DPT_Engineering,Universal,Security,Contains members of the Engineering department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_InfraOps,Universal,Security,Contains members of the InfraOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+DPT_IT Operations,Universal,Security,Contains members of the IT Operations department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_Maintenance,Universal,Security,Contains members of the Maintenance department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_Marketing,Universal,Security,Contains members of the Marketing department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_Medical,Universal,Security,Contains members of the Medical department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_NetOps,Universal,Security,Contains members of the NetOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+DPT_ProcureOps,Universal,Security,Contains members of the ProcureOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+DPT_Sales,Universal,Security,Contains members of the Sales department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All
+DPT_Security,Universal,Security,Contains members of the Security department.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",SSP - Account Management;DPT_All
+DPT_SupportOps,Universal,Security,Contains members of the SupportOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+DPT_WebOps,Universal,Security,Contains members of the WebOps team.,"OU=DepartmentAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",DPT_All;DPT_IT Operations
+Fringe Staff,Universal,Distribution,Contains all Fringe staff members.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+GJT RDP Users,Global,Security,Distributed via Group Policy to allow remote login.,"OU=RDPAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",Remote Desktop Users
+Global-ClientAdmins,Global,Security,Grants local admin access to all client devices.,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",
+Global-RDGUsers,Global,Security,Grants full Remote Desktop Gateway access.,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",
+Global-RDPUsers,Global,Security,Grants RDP access to all devices.,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",Remote Desktop Users
+Global-ServerAdmins,Global,Security,Grants local admin access to all servers.,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",
+Global-WorkstationAdmins,Global,Security,Grants local admin access to all workstations,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",
+Global-SQLAdmins,Global,Security,Grants SA access to all SQL instances.,"OU=RestrictedGroups,OU=Groups-Global,OU=GJT-Global",
+IT Procurement Approver,Universal,Security,,"OU=OrganizationRole,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+LOST Staff,Universal,Distribution,Contains all LOST staff members.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
+SCCM_Servers,Universal,Security,Contains all SC Configuration Manager servers.,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SCSM_Connector_Accts,Universal,Security,Contains all accounts used by Connectors in SC Service Manager.,"OU=ApplicationAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Arrow,Universal,Security,Used to control access to the Arrow share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Barracks,Universal,Security,Used to control access to the Barracks share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Flame,Universal,Security,Used to control access to the Flame share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Hydra,Universal,Security,Used to control access to the Hydra share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_LampPost,Universal,Security,Used to control access to the LampPost share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_LookingGlass,Universal,Security,Used to control access to the LookingGlass share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Orchid,Universal,Security,Used to control access to the Orchid share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Pearl,Universal,Security,Used to control access to the Pearl share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Staff,Universal,Security,Used to control access to the Staff share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Swan,Universal,Security,Used to control access to the Swan share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SHR_Tempest,Universal,Security,Used to control access to the Tempest share.,"OU=FileShareAccess,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SSP - Account Management,Universal,Security,,"OU=OrganizationRole,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SSP - SCO Users,Universal,Security,,"OU=OrganizationRole,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+SSP - SCSM Users,Universal,Security,,"OU=OrganizationRole,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",SSP - Standard Users
+SSP - Standard Users,Universal,Security,,"OU=OrganizationRole,OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",
+Walking Dead Staff,Universal,Distribution,Contains all Walking Dead staff members.,"OU=DistributionGroups,OU=Groups-Global,OU=GJT-Global",
