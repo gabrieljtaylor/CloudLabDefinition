@@ -151,6 +151,12 @@
         "description": "The password for the Administrator account of the new VM and Domain"
       }
     },
+    "defaultUserPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The default password for users created during the domain deployment"
+      }
+    },
     "monitoringAgentWorkspaceID": {
       "type": "string",
       "metadata": {
@@ -440,7 +446,7 @@
               "fileUris": [
                 "[variables('ConfigureADObjectsScriptFilePath')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('ConfigureADObjectsScriptFilePath'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('adminPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('ConfigureADObjectsScriptFilePath'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('defaultUserPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
             }
 					}
 				}

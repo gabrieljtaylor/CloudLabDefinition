@@ -34,6 +34,14 @@
     "assetLocation": {
       "value": "https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/CloudLab-SiteInfra-EUS2/"
     },
+    "defaultUserPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-DefaultUserPW"
+      }
+    },
     "domainName": {
       "value": "cloud.gabrieljtaylor.com"
     },
