@@ -202,7 +202,7 @@
     "adBDCConfigurationFunction": "CreateADBDC",
     "asPlatformFaultDomainCount": "3",
     "asPlatformUpdateDomainCount": "20",
-    "configureADObjectsScriptUrl": "[concat(parameters('assetLocation'),'Scripts/ConfigureADObjects.ps1.zip')]",
+    "configureADObjectsScriptUrl": "[concat(parameters('assetLocation'),'Assets/ConfigureADObjects.ps1.zip')]",
     "configureADObjectsScriptFileName": "ConfigureADObjects.ps1",
     "configureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/')]",
     "configureADObjectsAssetCSVPath": "[concat(parameters('assetLocation'),'Assets/')]"
