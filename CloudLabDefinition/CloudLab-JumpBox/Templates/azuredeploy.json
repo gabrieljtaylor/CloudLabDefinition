@@ -244,7 +244,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[variables('vmOSDiskName')]",
+            "name": "testingDiskName",
             "vhd": {
               "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds', variables('vmOSDiskName'), '.vhd')]"
             },
