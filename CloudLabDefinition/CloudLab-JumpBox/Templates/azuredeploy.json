@@ -308,7 +308,8 @@
           "name": "[concat(parameters('vmName'),'-MMAconfiguration')]",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]",
+            "[concat(parameters('vmName'),'-JoinDomain')]"
           ],
           "properties": {
             "publisher": "Microsoft.EnterpriseCloud.Monitoring",
@@ -378,5 +379,11 @@
         }
       ]
     }
-  ]
+  ],
+  "outputs": {
+    "vmOSDiskName": {
+      "type": "string",
+      "value": "[variables('vmOSDiskName')]"
+    }
+  }
 }

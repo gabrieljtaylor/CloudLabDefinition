@@ -395,7 +395,8 @@
           "name": "[concat(parameters('adPDCVMName'),'-MMAconfiguration')]",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]",
+            "[concat(parameters('adPDCVMName'),'-CreateADForest')]"
           ],
           "properties": {
             "publisher": "Microsoft.EnterpriseCloud.Monitoring",
@@ -411,37 +412,13 @@
           }
         },
         {
-          "name": "[concat(parameters('adPDCVMName'),'-ConfigureADObjects')]",
-          "type": "extensions",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2015-06-15",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]",
-            "[concat(parameters('adPDCVMName'),'-CreateADForest')]"
-          ],
-          "tags": {
-            "displayName": "[concat(parameters('adPDCVMName'),'-ConfigureADObjects')]"
-          },
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.4",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[variables('configureADObjectsScriptFilePath')]"
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('configureADObjectsScriptFileName'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('defaultUserPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
-            }
-          }
-        },
-        {
           "name": "[concat(parameters('adPDCVMName'),'-MalwareProtection')]",
           "type": "extensions",
           "apiVersion": "2015-06-15",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]",
+            "[concat(parameters('adPDCVMName'),'-MMAconfiguration')]"
           ],
           "properties": {
             "publisher": "Microsoft.Azure.Security",
@@ -463,6 +440,32 @@
               }
             },
             "protectedSettings": null
+          }
+        },
+        {
+          "name": "[concat(parameters('adPDCVMName'),'-ConfigureADObjects')]",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adPDCVMName'))]",
+            "[concat(parameters('adPDCVMName'),'-CreateADForest')]",
+            "[concat(parameters('adPDCVMName'),'-MMAconfiguration')]"
+          ],
+          "tags": {
+            "displayName": "[concat(parameters('adPDCVMName'),'-ConfigureADObjects')]"
+          },
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[variables('configureADObjectsScriptFilePath')]"
+              ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('configureADObjectsScriptFileName'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('defaultUserPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
+            }
           }
         }
       ]
@@ -643,7 +646,8 @@
           "name": "[concat(parameters('adBDCVMName'),'-MMAconfiguration')]",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('adBDCVMName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adBDCVMName'))]",
+            "[concat(parameters('adBDCVMName'),'-CreateBDC')]"
           ],
           "properties": {
             "publisher": "Microsoft.EnterpriseCloud.Monitoring",
