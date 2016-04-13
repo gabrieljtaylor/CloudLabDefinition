@@ -190,7 +190,7 @@
       "name": "[variables('storageAccountName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "accountType": "parameters('storageAccountType')"
+        "accountType": "[parameters('storageAccountType')]"
       }
     },
     {
