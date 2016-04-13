@@ -63,6 +63,9 @@
     "domainJoinOptions": {
       "value": 3
     },
+    "domainOUpath": {
+      "value": "OU=Servers,OU=Devices,OU=GJT-Corp,DC=cloud,DC=gabrieljtaylor,DC=com"
+    },
     "monitoringAgentWorkspaceID": {
       "reference": {
         "keyVault": {
