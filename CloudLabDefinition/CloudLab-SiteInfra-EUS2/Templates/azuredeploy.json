@@ -450,9 +450,9 @@
             "settings": {
               "AntimalwareEnabled": "true",
               "Exclusions": {
-                "Paths": "C:\\Users;C:\\SoftwareDistribution\\Datastore",
+                "Paths": "C:\\Users;C:\\SoftwareDistribution\\Datastore;C:\\Program Files\\Microsoft Monitoring Agent\\Agent\\Health Service State",
                 "Extensions": ".txt;.edb;.sdb;.log;.chk;.jrs",
-                "Processes": "taskmgr.exe"
+                "Processes": "taskmgr.exe;monitoringhost.exe"
               },
               "RealtimeProtectionEnabled": "true",
               "ScheduledScanSettings": {
@@ -673,9 +673,9 @@
             "settings": {
               "AntimalwareEnabled": "true",
               "Exclusions": {
-                "Paths": "C:\\Users;C:\\SoftwareDistribution\\Datastore",
+                "Paths": "C:\\Users;C:\\SoftwareDistribution\\Datastore;C:\\Program Files\\Microsoft Monitoring Agent\\Agent\\Health Service State",
                 "Extensions": ".txt;.edb;.sdb;.log;.chk;.jrs",
-                "Processes": "taskmgr.exe"
+                "Processes": "taskmgr.exe;monitoringhost.exe"
               },
               "RealtimeProtectionEnabled": "true",
               "ScheduledScanSettings": {
