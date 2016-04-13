@@ -212,3 +212,4 @@ _Pvt_Extensions/
 ModelManifest.xml
 /CloudLabDefinition/CloudLab-SiteInfra-EUS2/Assets/CreateADPDC.ps1
 /CloudLabDefinition/CloudLab-SiteInfra-EUS2/Assets/CreateADBDC.ps1
+/CloudLabDefinition/CloudLab-JumpBox/Assets/DSCconfig.ps1
