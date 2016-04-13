@@ -244,7 +244,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "testingDiskName",
+            "name": "CloudLab-JB01_OS",
             "vhd": {
               "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds', variables('vmOSDiskName'), '.vhd')]"
             },
@@ -253,7 +253,7 @@
           },
           "dataDisks": [
             {
-              "name": "[variables('vmDataDiskName')]",
+              "name": "CloudLab-JB01_Data",
               "vhd": {
                 "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds', variables('vmDataDiskName'), '.vhd')]"
               },
