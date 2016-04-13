@@ -294,6 +294,7 @@
             "typeHandlerVersion": "1.0",
             "settings": {
               "Name": "[parameters('domainName')]",
+              "OUpath": "",
               "User": "[variables('domainJoinUsername')]",
               "Restart": "true",
               "Options": "[parameters('domainJoinOptions')]"
@@ -361,7 +362,8 @@
           "location": "[resourceGroup().location]",
           "apiVersion": "2015-06-15",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]",
+            "[concat(parameters('vmName'),'-JoinDomain')]"
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
