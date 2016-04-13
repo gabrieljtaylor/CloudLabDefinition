@@ -1,0 +1,86 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": "gjtcloudlabsajb"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "vNetName": {
+      "value": "GJT-CloudLab-vNet1"
+    },
+    "vNetResourceGroupName": {
+      "value": "GJT-CloudLab-SiteInfra-EUS2"
+    },
+    "vNetSubnetName": {
+      "value": "10.0.0.0-24"
+    },
+    "publicIPdnsLabelPrefix": {
+      "value": "gjt-cloudlab-jb01"
+    },
+    "vmName": {
+      "value": "CloudLab-JB01"
+    },
+    "vmSize": {
+      "value": "Standard_A3"
+    },
+    "imageOffer": {
+      "value": "WindowsServer"
+    },
+    "imagePublisher": {
+      "value": "MicrosoftWindowsServer"
+    },
+    "imageSKU": {
+      "value": "2012-R2-Datacenter"
+    },
+    "vmAdminUsername": {
+      "value": "cloudlabAdmin"
+    },
+    "vmAdminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-AdminPW"
+      }
+    },
+    "domainName": {
+      "value": "cloud.gabrieljtaylor.com"
+    },
+    "domainJoinUsername": {
+      "value": "cloudlabAdmin"
+    },
+    "domainJoinPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-AdminPW"
+      }
+    },
+    "domainJoinOptions": {
+      "value": 3
+    },
+    "monitoringAgentWorkspaceID": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-OMSWorkspaceId"
+      }
+    },
+    "monitoringAgentWorkspaceKey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8bd1e9cd-7b74-4904-a82e-96cd752b3f30/resourceGroups/GJT-CloudLab-KeyVault/providers/Microsoft.KeyVault/vaults/GJT-CloudLab-KeyVault"
+        },
+        "secretName": "GJT-CloudLab-OMSWorkspaceKey"
+      }
+    }
+    "assetLocation": {
+      "value": "https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/CloudLab-JumpBox/"
+    }
+  }
+}

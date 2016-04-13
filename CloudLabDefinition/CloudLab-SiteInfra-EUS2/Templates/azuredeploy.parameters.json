@@ -20,7 +20,7 @@
       }
     },
     "adminUsername": {
-      "value": "cloudDomainAdmin"
+      "value": "cloudlabAdmin"
     },
     "adPDCNicIPAddress": {
       "value": "10.0.0.4"
@@ -54,7 +54,7 @@
     "imageSKU": {
       "value": "2012-R2-Datacenter"
     },
-    "newStorageAccountName": {
+    "StorageAccountName": {
       "value": "gjtcloudlabsaad"
     },
     "storageAccountType": {

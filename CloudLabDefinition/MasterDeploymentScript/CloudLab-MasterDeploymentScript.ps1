@@ -12,7 +12,6 @@
 #region parameters
 [CmdletBinding()]
 param (
-    [System.Management.Automation.PSCredential]$AzureCredential,
     [string]$SubscriptionName = 'Visual Studio Premium with MSDN',
     [parameter()]
     [ValidateSet("Brazil South",
@@ -36,6 +35,7 @@ param (
 ## Resource Group Names
 [string]$RGName_Prefix = 'GJT-'
 [string]$RGName_SiteInfra_EUS2 = 'CloudLab-SiteInfra-EUS2'
+[string]$RGName_JumpBox = 'CloudLab-JumpBox'
 
 ## Asset location root
 [string]$AssetPathRoot = 'https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/'
@@ -44,7 +44,7 @@ param (
 #endregion
 
 #region Functions
-function Deploy-RGSiteInfra-EUS2 {
+function Deploy-RmResourceGroup {
     [CmdletBinding()]
     param(
         [string]$DeploymentMode = 'Incremental',    
@@ -88,7 +88,6 @@ function Deploy-RGSiteInfra-EUS2 {
 
     }
 }
-
 #endregion
 
 #region Validate Inputs
@@ -98,13 +97,8 @@ function Deploy-RGSiteInfra-EUS2 {
 #region Connect to Azure
 ## Connect to Azure
 try {
-    if (!$AzureCredential) {
-        ## If no credential was provided, then prompt for one and connect to Azure
-        $AzureProfile = Add-AzureRmAccount -SubscriptionName $SubscriptionName -ErrorAction Stop
-    }
-    else {
-        $AzureProfile = Login-AzureRmAccount -Credential $AzureCredential -SubscriptionName $SubscriptionName -ErrorAction Stop
-    }
+    ## Prompt for a credential and connect to Azure
+    $AzureProfile = Add-AzureRmAccount -SubscriptionName $SubscriptionName -ErrorAction Stop
 }
 catch {
     Write-Error -Message "Failed to connect to Azure; exception: $($Error[0].Exception.Message)"
@@ -113,8 +107,18 @@ catch {
 
 #region Deploy Resource Groups
 ## Deploy the SiteInfra-EUS2 resource group
-Deploy-RGSiteInfra_EUS2 -DeploymentMode Incremental `
+Deploy-RmResourceGroup -DeploymentMode Incremental `
     -ResourceGroupName $RGName_SiteInfra_EUS2 `
+    -ResourceGroupNamePrefix $RGName_Prefix `
+    -ResourceGroupLocation $Location `
+    -AssetPathRoot $AssetPathRoot `
+    -TemplatePathSuffix $TemplatePathSuffix `
+    -ParameterFilePathSuffix $ParameterFilePathSuffix `
+    -Verbose
+
+## Deploy the JumpBox resource group
+Deploy-RmResourceGroup -DeploymentMode Incremental `
+    -ResourceGroupName $RGName_JumpBox `
     -ResourceGroupNamePrefix $RGName_Prefix `
     -ResourceGroupLocation $Location `
     -AssetPathRoot $AssetPathRoot `
