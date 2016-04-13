@@ -78,7 +78,7 @@
         },
         "secretName": "GJT-CloudLab-OMSWorkspaceKey"
       }
-    }
+    },
     "assetLocation": {
       "value": "https://raw.githubusercontent.com/gabrieljtaylor/CloudLabDefinition/master/CloudLabDefinition/CloudLab-JumpBox/"
     }
