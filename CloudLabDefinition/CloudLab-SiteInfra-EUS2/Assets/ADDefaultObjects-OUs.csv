@@ -5,7 +5,7 @@ Desktop,,"OU=Clients,OU=Devices-Policy,OU=GJT-CLOUD",GJT-CLOUD/Devices-Policy/Cl
 Desktop,,"OU=Clients,OU=Devices-NoPolicy,OU=GJT-CLOUD",GJT-CLOUD/Devices-NoPolicy/Clients,FALSE,FALSE
 Devices-NoPolicy,,OU=GJT-CLOUD,GJT-CLOUD,FALSE,FALSE
 Devices-Policy,,OU=GJT-CLOUD,GJT-CLOUD,FALSE,FALSE
-GJT-CLOUD,,DC=corp,,FALSE,FALSE
+GJT-CLOUD,,,,FALSE,FALSE
 Mobile,,"OU=Clients,OU=Devices-Policy,OU=GJT-CLOUD",GJT-CLOUD/Devices-Policy/Clients,FALSE,FALSE
 Mobile,,"OU=Clients,OU=Devices-NoPolicy,OU=GJT-CLOUD",GJT-CLOUD/Devices-NoPolicy/Clients,FALSE,FALSE
 Servers,,"OU=Devices-Policy,OU=GJT-CLOUD",GJT-CLOUD/Devices-Policy,TRUE,FALSE
@@ -18,7 +18,7 @@ DisabledAccounts,,"OU=Users-Global,OU=GJT-Global",GJT-Global/Users-Global,FALSE,
 DistributionGroups,,"OU=Groups-Global,OU=GJT-Global",GJT-Global/Groups-Global,FALSE,FALSE
 FileShareAccess,,"OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",GJT-Global/Groups-Global/SecurityGroups,FALSE,FALSE
 GenericAccounts,,"OU=Users-Global,OU=GJT-Global",GJT-Global/Users-Global,FALSE,FALSE
-GJT-Global,,DC=corp,,FALSE,FALSE
+GJT-Global,,,,FALSE,FALSE
 Groups-Global,,OU=GJT-Global,GJT-Global,FALSE,FALSE
 LocalAdminAccess,,"OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",GJT-Global/Groups-Global/SecurityGroups,FALSE,FALSE
 OrganizationRole,,"OU=SecurityGroups,OU=Groups-Global,OU=GJT-Global",GJT-Global/Groups-Global/SecurityGroups,FALSE,FALSE
