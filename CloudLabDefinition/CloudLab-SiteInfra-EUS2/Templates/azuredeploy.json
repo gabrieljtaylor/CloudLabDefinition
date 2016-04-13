@@ -201,7 +201,7 @@
     "asPlatformFaultDomainCount": "3",
     "asPlatformUpdateDomainCount": "20",
     "configureADObjectsScriptFileName": "ConfigureADObjects.ps1",
-    "configureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/',variables('configureADObjectsScriptFileName'))]",
+    "configureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/')]",
     "configureADObjectsAssetCSVPath": "[concat(parameters('assetLocation'),'Assets/')]"
   },
   "resources": [
