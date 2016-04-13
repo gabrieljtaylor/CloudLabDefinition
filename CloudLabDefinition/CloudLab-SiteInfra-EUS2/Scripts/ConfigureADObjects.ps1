@@ -55,6 +55,14 @@ function Test-Credential {
 }
 #endregion
 
+#region Update Event Log 1
+## Write an event to the event log to say that the script has executed
+$event = New-Object System.Diagnostics.EventLog("Application")
+$event.Source = "ARMscriptDeployment"
+$info_event = [System.Diagnostics.EventLogEntryType]::Information
+$event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
+#endregion
+
 #region Script Blocks
 [scriptblock]$configureDNSSuffix = {
     ## Check whether or not Active Directory PowerShell module has been imported and, if not, import it
@@ -495,7 +503,7 @@ function Test-Credential {
 }
 #endregion
 
-#region Data Validation
+#region Data Validation and Prep
 ## Identify the domain name
 $DomainName = $env:USERDOMAIN
 
@@ -508,9 +516,14 @@ $DomainAdminPassword
 
 ## Test the supplied domain admin credentials
 if ((Test-Credential -Credential $DomainCreds) -eq $false) {
+    ## Write an event to the event log to say that the script has executed
+    $event = New-Object System.Diagnostics.EventLog("Application")
+    $event.Source = "ARMscriptDeployment"
+    $info_event = [System.Diagnostics.EventLogEntryType]::Error
+    $event.WriteEntry("ConfigureADObjects.ps1 has encountered an error.`nDomain credential validation failed for the account $($DomainCreds.Username).`nException: $($Error[0].Exception.Message)`nThe script will now exit.`nProcessing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
+
     ## Log the account validation failure
-    Write-Verbose -Verbose -Message "The supplied credentials for $($DomainName) failed to be validated; the process will be unable to inventory the servers in that domain."
-    Write-Verbose -Verbose -Message "The credential validation failed for the account $($DomainCreds); please confirm account status and password accuracy, then update the Orchestrator variables."
+    Write-Verbose -Verbose -Message "Domain credential validation failed for the account $($DomainCreds.Username)."
     Write-Verbose -Verbose -Message "The script will now exit."
     exit
     }
@@ -532,6 +545,12 @@ try {
     Write-Verbose -Verbose -Message "Allowed DNS suffixes configured successfully."
 }
 catch {
+    ## Write an event to the event log to say that the script has executed
+    $event = New-Object System.Diagnostics.EventLog("Application")
+    $event.Source = "ARMscriptDeployment"
+    $info_event = [System.Diagnostics.EventLogEntryType]::Error
+    $event.WriteEntry("ConfigureADObjects.ps1 has encountered an error.`nException: $($Error[0].Exception.Message)`nThe script will now exit.`nProcessing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
+
     Write-Verbose -Verbose -Message "An error occurred while configuring allowed DNS suffixes."
     Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
     Write-Verbose -Verbose -Message "The script will now exit."
@@ -546,6 +565,12 @@ try {
     Write-Verbose -Verbose -Message "Organizational Units configured successfully."
 }
 catch {
+    ## Write an event to the event log to say that the script has executed
+    $event = New-Object System.Diagnostics.EventLog("Application")
+    $event.Source = "ARMscriptDeployment"
+    $info_event = [System.Diagnostics.EventLogEntryType]::Error
+    $event.WriteEntry("ConfigureADObjects.ps1 has encountered an error.`nException: $($Error[0].Exception.Message)`nThe script will now exit.`nProcessing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
+
     Write-Verbose -Verbose -Message "An error occurred while configuring Organizational Units."
     Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
     Write-Verbose -Verbose -Message "The script will now exit."
@@ -560,6 +585,12 @@ try {
     Write-Verbose -Verbose -Message "AD groups configured successfully."
 }
 catch {
+    ## Write an event to the event log to say that the script has executed
+    $event = New-Object System.Diagnostics.EventLog("Application")
+    $event.Source = "ARMscriptDeployment"
+    $info_event = [System.Diagnostics.EventLogEntryType]::Error
+    $event.WriteEntry("ConfigureADObjects.ps1 has encountered an error.`nException: $($Error[0].Exception.Message)`nThe script will now exit.`nProcessing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
+
     Write-Verbose -Verbose -Message "An error occurred while configuring AD groups."
     Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
     Write-Verbose -Verbose -Message "The script will now exit."
@@ -574,6 +605,12 @@ try {
     Write-Verbose -Verbose -Message "AD users configured successfully."
 }
 catch {
+    ## Write an event to the event log to say that the script has executed
+    $event = New-Object System.Diagnostics.EventLog("Application")
+    $event.Source = "ARMscriptDeployment"
+    $info_event = [System.Diagnostics.EventLogEntryType]::Error
+    $event.WriteEntry("ConfigureADObjects.ps1 has encountered an error.`nException: $($Error[0].Exception.Message)`nThe script will now exit.`nProcessing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
+
     Write-Verbose -Verbose -Message "An error occurred while configuring AD users."
     Write-Verbose -Verbose -Message "Exception: $($Error[0].Exception.Message)"
     Write-Verbose -Verbose -Message "The script will now exit."
@@ -588,4 +625,10 @@ catch {
 #region Wrap Up
 Write-Verbose -Verbose -Message "AD Object configuration complete."
 Write-Verbose -Verbose -Message "Processing Time: $(New-TimeSpan -Start $StartTime -End (Get-Date))"
+
+## Write an event to the event log to say that the script has executed
+$event = New-Object System.Diagnostics.EventLog("Application")
+$event.Source = "ARMscriptDeployment"
+$info_event = [System.Diagnostics.EventLogEntryType]::Information
+$event.WriteEntry("ConfigureADObjects.ps1 has completed successfully. Processing time: $(New-TimeSpan -Start $StartTime -End (Get-Date))", $info_event, 5001)
 #endregion

@@ -200,8 +200,9 @@
     "adBDCConfigurationFunction": "CreateADBDC.ps1\\CreateADBDC",
     "asPlatformFaultDomainCount": "3",
     "asPlatformUpdateDomainCount": "20",
-    "ConfigureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/ConfigureADObjects.ps1')]",
-    "ConfigureADObjectsAssetCSVPath": "[concat(parameters('assetLocation'),'Assets/')]"
+    "configureADObjectsScriptFileName": "ConfigureADObjects.ps1"
+    "configureADObjectsScriptFilePath": "[concat(parameters('assetLocation'),'Scripts/',variables('configureADObjectsScriptFileName'))]",
+    "configureADObjectsAssetCSVPath": "[concat(parameters('assetLocation'),'Assets/')]"
   },
   "resources": [
     {
@@ -428,9 +429,9 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "[variables('ConfigureADObjectsScriptFilePath')]"
+                "[variables('configureADObjectsScriptFilePath')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('ConfigureADObjectsScriptFilePath'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('defaultUserPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('configureADObjectsScriptFileName'), ' -CSVDataUrl ', variables('ConfigureADObjectsAssetCSVPath'), ' -DefaultPassword ', parameters('defaultUserPassword'), ' -DomainAdminUsername ', parameters('adminUsername'), ' -DomainAdminPassword ', parameters('adminPassword'))]"
             }
           }
         },
