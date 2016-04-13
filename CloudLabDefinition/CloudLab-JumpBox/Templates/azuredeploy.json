@@ -338,9 +338,9 @@
             "settings": {
               "AntimalwareEnabled": "true",
               "Exclusions": {
-                "Paths": "C:\\Users",
-                "Extensions": ".txt",
-                "Processes": "taskmgr.exe"
+                "Paths": "C:\\Users;C:\\Program Files\\Microsoft Monitoring Agent\\Agent\\Health Service State",
+                "Extensions": ".txt;.edb;.log;.chk",
+                "Processes": "taskmgr.exe;monitoringhost.exe"
               },
               "RealtimeProtectionEnabled": "true",
               "ScheduledScanSettings": {
