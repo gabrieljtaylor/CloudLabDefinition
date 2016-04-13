@@ -161,8 +161,8 @@
   "variables": {
     "storageAccountName": "[toLower(parameters('storageAccountName'))]",
     "vmNicName": "[concat(parameters('vmName'), '_nic1')]",
-    "vmOSDiskName": "concat(parameters('vmName'),'_OS')]",
-    "vmDataDiskName": "concat(parameters('vmName'), '_Data')]",
+    "vmOSDiskName": "[concat(parameters('vmName'),'_OS')]",
+    "vmDataDiskName": "[concat(parameters('vmName'), '_Data')]",
     "publicIPdnsLabelPrefix": "[toLower(parameters('publicIPdnsLabelPrefix'))]",
     "publicIPName": "[concat(parameters('vmName'),'_publicIP')]",
     "vnetID": "[resourceId(parameters('vNetResourceGroupName'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
@@ -244,18 +244,18 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[variables('vmOSDiskName')]",
             "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds', variables('vmOSDiskName'), '.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/', variables('vmOSDiskName'), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "datadisk",
+              "name": "[variables('vmDataDiskName')]",
               "vhd": {
-                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds', variables('vmDataDiskName'), '.vhd')]"
+                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/', variables('vmDataDiskName'), '.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
