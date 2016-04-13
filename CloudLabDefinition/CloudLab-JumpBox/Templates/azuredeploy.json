@@ -169,7 +169,8 @@
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('vNetSubnetName'))]",
     "domainJoinUsername": "[concat(parameters('domainName'), '\\', parameters('domainJoinUsername'))]",
     "vmDSCModulesURL": "[concat(parameters('assetLocation'),'Assets/DSCconfig.ps1.zip')]",
-    "vmDSCConfigurationFunction": "DSCconfig.ps1\\DSCconfig"
+    "vmDSCConfigurationScript": "DSCconfig.ps1",
+    "vmDSCConfigurationFunction": "DSCconfig"
   },
   "resources": [
     {
@@ -365,12 +366,16 @@
           "properties": {
             "publisher": "Microsoft.Powershell",
             "type": "DSC",
-            "typeHandlerVersion": "2.9",
+            "typeHandlerVersion": "2.15",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "modulesUrl": "[variables('vmDSCModulesURL')]",
-              "configurationFunction": "[variables('vmDSCConfigurationFunction')]",
-              "properties": {
+              "wmfVersion": "latest",
+              "configuration": {
+                "url": "[variables('vmDSCModulesURL')]",
+                "script": "[variables('vmDSCConfigurationScript')]",
+                "function": "[variables('vmDSCConfigurationFunction')]"
+              },
+              "configurationArguments": {
                 "nodeName": "[parameters('vmName')]"
               }
             },

@@ -31,6 +31,7 @@
     <None Include="Assets\ADDefaultObjects-Groups.csv" />
     <None Include="Assets\ADDefaultObjects-OUs.csv" />
     <None Include="Assets\ADDefaultObjects-Users.csv" />
+    <None Include="Assets\ConfigureADObjects.zip" />
     <None Include="Assets\CreateADBDC.ps1.zip" />
     <None Include="Assets\CreateADPDC.ps1.zip" />
     <None Include="Deployment.targets">
