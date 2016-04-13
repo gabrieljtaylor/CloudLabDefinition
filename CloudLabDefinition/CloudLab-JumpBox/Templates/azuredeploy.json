@@ -161,7 +161,7 @@
   "variables": {
     "storageAccountName": "[toLower(parameters('storageAccountName'))]",
     "vmNicName": "[concat(parameters('vmName'), '_nic1')]",
-    "vmOSDiskName": "concat(parameters('vmName'), '_OS')]",
+    "vmOSDiskName": "concat(parameters('vmName'),'_OS')]",
     "vmDataDiskName": "concat(parameters('vmName'), '_Data')]",
     "publicIPdnsLabelPrefix": "[toLower(parameters('publicIPdnsLabelPrefix'))]",
     "publicIPName": "[concat(parameters('vmName'),'_publicIP')]",
