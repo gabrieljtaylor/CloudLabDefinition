@@ -383,9 +383,7 @@
                 "script": "[variables('vmDSCConfigurationScript')]",
                 "function": "[variables('vmDSCConfigurationFunction')]"
               },
-              "configurationArguments": {
-                "nodeName": "[parameters('vmName')]"
-              }
+              "configurationArguments": null
             },
             "protectedSettings": null
           }

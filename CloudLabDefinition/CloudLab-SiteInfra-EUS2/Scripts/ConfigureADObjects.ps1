@@ -135,7 +135,12 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
         foreach ($OU in $InProcessingOUs) {
             try {
                 ## Define the object path and distinguished name
-                [string]$Path = $OU.LocationPath + "," + $Domain.DistinguishedName
+                if ($OU.LocationPath -notmatch '^$') {
+                    [string]$Path = $OU.LocationPath + "," + $Domain.DistinguishedName
+                }
+                else {
+                    [string]$Path = $Domain.DistinguishedName
+                }
 
                 ## If the OU doesn't exist, create it
                 if ((Test-ADOUExists -OUName $OU.Name -ParentDistinguishedName $Path) -eq $false) {
@@ -144,7 +149,7 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
                         Name = $OU.Name
                         DisplayName = $OU.Name
                         Path = $Path
-                        ProtectFromAccidentalDeletion = $true
+                        ProtectedFromAccidentalDeletion = $true
                         ErrorAction = 'Stop'
                         PassThru = $true
                     }
@@ -188,7 +193,7 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
     $CSVURL = $args[0]
 
     ## Define functions
-    gunction Test-ADsAMAccountNameExists {
+    function Test-ADsAMAccountNameExists {
         [CmdletBinding()]
         param(
             [parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -240,7 +245,7 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
 
                 ## If other properties were supplied and are allowed by the cmdlet (sans 'OtherAttributes'), add them to the hash
                 $AllowedProperties = "Description","HomePage","ManagedBy"
-                foreach ($Property in ($OU | Get-Member -MemberType NoteProperty)) {
+                foreach ($Property in ($Group | Get-Member -MemberType NoteProperty)) {
                     if ($AllowedProperties -contains $Property.Name -and $Group.$($Property.Name) -notmatch '^$') {
                         $SplatHash.Add($Property.Name,$Group.$($Property.Name))
                     }
@@ -265,19 +270,21 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
 
     ## Add processed groups as a member of groups specified in the CSV data
     foreach ($Group in $ProcessedGroups) {
-        ## Split the specified group membership data into an array of group names
-        [string[]]$MemberOfGroups = $Group.MemberOf -split ';'
+        if ($Group.MemberOf -notmatch '^$') {
+            ## Split the specified group membership data into an array of group names
+            [string[]]$MemberOfGroups = $Group.MemberOf -split ';'
 
-        ## Retrieve the existing group memberships
-        $ExistingGroupMemberships = $Group.ADGroupObj.MemberOf | %{Get-ADGroup -Identity $_}
+            ## Retrieve the existing group memberships
+            $ExistingGroupMemberships = $Group.ADGroupObj.MemberOf | %{Get-ADGroup -Identity $_}
 
-        ## Validate the group names and add the group to the validated groups
-        foreach ($MGroup in $MemberOfGroups) {
-            if ($ExistingGroupMemberships.Name -notcontains $MGroup) {
-                ## If the group being processed is not already a member of the specified group
-                if ((Test-ADsAMAccountNameExists -sAMAccountName $MGroup) -eq $false) {
-                    ## If the specified group exists, add the group being processed to the specified group
-                    Add-ADGroupMember -Identity $MGroup -Members $Group.Name
+            ## Validate the group names and add the group to the validated groups
+            foreach ($MGroup in $MemberOfGroups) {
+                if ($ExistingGroupMemberships.Name -notcontains $MGroup) {
+                    ## If the group being processed is not already a member of the specified group
+                    if ((Test-ADsAMAccountNameExists -sAMAccountName $MGroup) -eq $false) {
+                        ## If the specified group exists, add the group being processed to the specified group
+                        Add-ADGroupMember -Identity $MGroup -Members $Group.Name
+                    }
                 }
             }
         }
@@ -397,13 +404,15 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
     ## Retrieve the CSV data from the web
     [array]$CSVData = Invoke-WebRequest -Uri $CSVURL |
         Select-Object -ExpandProperty Content |
-        ConvertFrom-Csv |
-        Sort-Object -Property CanonicalName
+        ConvertFrom-Csv
 
     ## Validate and create Users based on the CSV data
     $ProcessedUsers = @()
     foreach ($User in $CSVData) {
         try {
+            ## Ensure all the variables are clean
+            Remove-Variable -ErrorAction SilentlyContinue -Name UserName,Path,UserUPN,SplatHash,ADUser
+
             ## If a user with a matching DisplayName doesn't exist, create it
             if ((Test-ADUserDisplayNameExists -UserDisplayName $User.Name) -eq $false) {
                 ## Generate a sAMAccountName for the user
@@ -423,7 +432,7 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
                     SamAccountName = $UserName
                     Path = $Path
                     UserPrincipalName = $UserUPN
-                    AccountPassword = $User.Surname
+                    AccountPassword = $DefaultPassword
                     Name = $User.Name
                     DisplayName = $User.Name
                     ErrorAction = 'Stop'
@@ -437,7 +446,7 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
                     "Organization","OtherName","PasswordNeverExpires","POBox","PostalCode","ProfilePath","ScriptPath","SmartcardLogonRequired","State",
                     "StreetAddress","Surname","Title","TrustedForDelegation"
 
-                foreach ($Property in ($OU | Get-Member -MemberType NoteProperty)) {
+                foreach ($Property in ($User | Get-Member -MemberType NoteProperty)) {
                     if ($AllowedProperties -contains $Property.Name -and $User.$($Property.Name) -notmatch '^$') {
                         $SplatHash.Add($Property.Name,$User.$($Property.Name))
                     }
@@ -468,30 +477,39 @@ $event.WriteEntry("ConfigureADObjects.ps1 is running.", $info_event, 5001)
             ## This Catch block is entered if the User couldn't be created
             ## This prevents the User from being added to the ProcessedUsers array
             ## We don't need to do anything else here right now
+
+            Write-Verbose -Verbose -Message "Error encountered: $($Error[0].Exception.Message)"
         }
     }
 
     ## Configure Managers and group memberships for processed Users based on the CSV data
     foreach ($User in $ProcessedUsers) {
-        ## Retrieve the ADobject for the user's manager
-        $Manager = Get-ADUser -Filter "DisplayName -eq $($User.ManagerDN)"
+        if ($User.ManagerDN -notmatch '^$') {
+            ## Retrieve the ADobject for the user's manager
+            $Manager = Get-ADUser -Filter "DisplayName -eq `"$($User.ManagerDN)`""
 
-        ## If a user was returned, add them as the manager of the user being processed
-        Set-ADUser -Identity $User.ADuserObj.SamAccountName -Manager $Manager.DistinguishedName
+            ## If a user was returned, add them as the manager of the user being processed
+            Set-ADUser -Identity $User.ADuserObj.SamAccountName -Manager $Manager.DistinguishedName
+        }
 
-        ## Split the specified group membership data into an array of group names
-        [string[]]$MemberOfGroups = $User.MemberOf -split ';'
+        if ($User.MemberOf -notmatch '^$') {
+            ## Split the specified group membership data into an array of group names
+            [string[]]$MemberOfGroups = $User.MemberOf -split ';'
 
-        ## Retrieve the existing group memberships
-        $ExistingGroupMemberships = $User.ADUserObj.MemberOf | %{Get-ADGroup -Identity $_}
+            ## Retrieve the existing group memberships
+            [array]$ExistingGroupMemberships = $User.ADUserObj.MemberOf
+            if ($ExistingGroupMemberships.count -gt 0) {
+                [array]$ExistingGroups = $ExistingGroupMemberships | %{Get-ADGroup -Identity $_}
+            }
 
-        ## Validate the group names and add the User to the validated groups
-        foreach ($MGroup in $MemberOfGroups) {
-            if ($ExistingGroupMemberships.Name -notcontains $MGroup) {
-                ## If the User being processed is not already a member of the specified group
-                if ((Test-ADsAMAccountNameExists -sAMAccountName $MGroup) -eq $false) {
-                    ## If the specified group exists, add the User being processed to the specified group
-                    Add-ADGroupMember -Identity $MGroup -Members $User.ADUserObj.SamAccountName
+            ## Validate the group names and add the User to the validated groups
+            foreach ($MGroup in $MemberOfGroups) {
+                if ($ExistingGroups.Name -notcontains $MGroup) {
+                    ## If the User being processed is not already a member of the specified group
+                    if ((Test-ADsAMAccountNameExists -sAMAccountName $MGroup) -eq $true) {
+                        ## If the specified group exists, add the User being processed to the specified group
+                        Add-ADGroupMember -Identity $MGroup -Members $User.ADUserObj.SamAccountName
+                    }
                 }
             }
         }
